@@ -1,0 +1,10 @@
+#!/bin/bash
+signdown() {
+	curl\
+		-X DELETE \
+		-H "accept: application/json" \
+		--data ''$1'' \
+		http://localhost:8085/rest/con/cli
+}
+signdown `./signup 2> /dev/null`
+echo ""

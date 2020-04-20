@@ -1,0 +1,7 @@
+
+#!/bin/bash
+curl\
+	-X GET \
+	-H "accept: application/json" \
+	http://localhost:8085/rest/con/prg | \
+jq '.'

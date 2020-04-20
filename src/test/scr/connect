@@ -1,0 +1,11 @@
+#!/bin/bash
+connect(){
+	curl\
+		-X POST \
+		-H "accept: application/json" \
+		-H "content-type: application/json" \
+		--data '{"UID":'$1',"PRG":{"PID":0}}' \
+		"http://localhost:8085/rest/con/ses" 
+}
+connect `./signup |jq '.UID' 2>/dev/null`
+echo ""

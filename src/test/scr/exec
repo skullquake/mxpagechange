@@ -1,0 +1,21 @@
+#!/bin/bash
+_UID=`curl http://localhost:8085/rest/con/cli -X PUT    -H "accept: application/json"                                                                                                2> /dev/null            |jq '.UID'`
+printf "Client Initiated.......\n";
+_TOK=`curl http://localhost:8085/rest/con/ses -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"PRG":{"PID":1}}'                     2> /dev/null          |jq '.TOK'`
+printf "Session Started........\n";
+for i in `seq 0 1 32`;do
+	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd000"}}}' 2> /dev/null`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd001"}}}'`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd000"}}}'`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd001"}}}'`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd000"}}}'`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd001"}}}'`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd000"}}}'`
+#	_RES=`curl http://localhost:8085/rest/con/cmd -X POST   -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK',"CMD":{"ALI":"cmd001"}}}'`
+	printf "done "
+	date "+%Y%m%d-%H%M%S%3N"
+done
+_RES=`curl http://localhost:8085/rest/con/ses -X DELETE -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK'}}' 2>/dev/null`
+printf "Session Terminated.....\n"
+_RES=`curl http://localhost:8085/rest/con/cli -X DELETE -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID'}' 2>/dev/null`
+printf "Client Terminated......\n"

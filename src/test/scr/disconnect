@@ -1,0 +1,6 @@
+
+#!/bin/bash
+_UID=$(curl -X PUT -H "accept: application/json" http://localhost:8085/rest/con/cli|jq '.UID')
+_TOK=`curl -X POST -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"PRG":{"PID":0}}' "http://localhost:8085/rest/con/ses"|jq '.TOK'`
+_RES=`curl -X DELETE -H "accept: application/json" -H "content-type: application/json" --data '{"UID":'$_UID',"SES":{"TOK":'$_TOK'}}' http://localhost:8085/rest/con/ses`
+echo $_RES

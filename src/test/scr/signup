@@ -1,0 +1,6 @@
+
+#!/bin/bash
+curl\
+	-X PUT \
+	-H "accept: application/json" \
+	http://localhost:8085/rest/con/cli
